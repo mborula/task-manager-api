@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 body{
     display: flex;
     justify-content: center;
@@ -11,18 +15,19 @@ body{
 }
 
 .main-container {
-    width: 100%;
-}
-
-.task-form {
-    display: flex;
-    gap: 10px;
     width: 500px;
 }
 
 
+.task-form {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
 #text-field {
-    width: 70%;
+    width: 80%;
     font-size: 20px;
     padding: 10px 20px;
     border-radius: 10px;
@@ -63,10 +68,70 @@ body{
 }
 
 .task-entry{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     font-size: 20px;
     font-weight: 600;
     border-radius: 10px;
     padding: 10px 10px 10px 20px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
 
+.task-text {
+    flex: 1;
+    min-width: 0;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+
+}
+
+.task-buttons{
+    display: flex;
+    gap: 10px;
+}
+
+.task-button {
+    width: 30px;
+    border: none;
+    border-radius: 10%;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.task-button:hover {
+    background-color: #333;
+    color: white;
+}
+
+#edit-btn svg{
+    transform: translateY(3px) translateX(-1px);
+}
+
+#delete-btn svg{
+    transform: translateY(1px) translateX(0px);
+}
+
+
+@media (max-width: 600px) {
+
+    .main-container {
+        width: 100%;
+    }
+
+    .task-form {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    #text-field {
+        width: 100%;
+    }
+
+    #add-btn {
+        width: 100%;
+    }
 }

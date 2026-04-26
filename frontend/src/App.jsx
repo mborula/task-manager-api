@@ -1,13 +1,29 @@
 import { useEffect, useState } from 'react';
+import TaskForm from "./components/TaskForm.jsx";
 import './App.css'
+import TaskItem from "./components/TaskItem.jsx";
+
 
 function App() {
 
   const [title, setTitle] = useState("");
   const [tasks, setTasks] = useState([]);
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await fetch("http://localhost:8080/tasks", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: title
+      })
+    });
+
+    setTitle("");
+    fetchTasks();
 
   };
 
@@ -21,6 +37,14 @@ function App() {
     fetchTasks();
   }, []);
 
+  const deleteTask = async (id) => {
+    await fetch(`http://localhost:8080/tasks/${id}`, {
+      method: "DELETE"
+    });
+
+    fetchTasks();
+  };
+
 
 
 
@@ -28,20 +52,14 @@ function App() {
     <>
      <h1 className="title"> Task Manager API</h1>
       <div className="main-container">
-          <form className="task-form" onSubmit={handleSubmit}>
-            <input value={title}
-                   type="text"
-                   id="text-field"
-                   placeholder="Type your task..."
-                   onChange={(e) => setTitle(e.target.value)}
-            />
-            <button type="submit" id="add-btn">+ Add</button>
-          </form>
+        <TaskForm title={title} setTitle={setTitle} handleSubmit={handleSubmit} />
         <ul className="tasks-list">
           {tasks.map((task) => (
-              <li className ="task-entry" key={task.id}>
-                {task.title}
-              </li>
+              <TaskItem
+                  key={task.id}
+                  task={task}
+                  deleteTask={deleteTask}
+              />
           ))}
         </ul>
       </div>
