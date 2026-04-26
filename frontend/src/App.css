@@ -115,6 +115,21 @@ body{
 }
 
 
+#task-entry-edit .task-button {
+    font-weight: 900;
+    font-size: 16px;
+}
+
+#task-entry-edit .task-text {
+    border: none;
+    font-size: 20px;
+    margin-right: 5px;
+
+}
+#task-entry-edit .task-text:active {
+    border: none;
+}
+
 @media (max-width: 600px) {
 
     .main-container {
