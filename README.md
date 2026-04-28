@@ -6,9 +6,9 @@ The app allows users to create, edit, delete, and mark tasks as completed, with 
 
 
 ![alt text](public/image-1.png)
-![alt text](publicimage.png)
-![alt text](public/image-2.png)
-![alt text](public/<Recording 2026-04-28 220245.gif>)
+![alt text](public/image.png)
+
+
 ## Main features
 
 -   Add new tasks
