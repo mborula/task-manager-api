@@ -32,7 +32,7 @@ function TaskEdit({ task, editValue, setEditValue, updateTask, cancelEdit }) {
             <div className="task-buttons">
                 <button
                     className="task-button"
-                    onClick={() => updateTask(task.id)}
+                    onClick={() => updateTask(task)}
                 >
                     &#x2713;
                 </button>

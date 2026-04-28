@@ -17,33 +17,42 @@ function App() {
     const data = await response.json();
     setTasks(data);
   };
+
   useEffect(() => {
     fetchTasks();
   }, []);
 
   const addTask = async (e) => {
     e.preventDefault();
-    await fetch("http://localhost:8080/tasks", {
+
+    const newTask = {
+      title: title,
+      done: false
+    };
+
+    const res = await fetch("http://localhost:8080/tasks", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        title: title
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newTask)
     });
+
+    const savedTask = await res.json();
+
+    setTasks(prev =>
+        [...prev, savedTask]
+    );
 
     setTitle("");
-    fetchTasks();
-
   };
 
-  const deleteTask = async (id) => {
-    await fetch(`http://localhost:8080/tasks/${id}`, {
+  const deleteTask = async (task) => {
+    await fetch(`http://localhost:8080/tasks/${task.id}`, {
       method: "DELETE"
     });
-
-    fetchTasks();
+    setTasks(prev =>
+        prev.filter(t =>
+            t.id !== task.id)
+    );
   };
 
   const startEdit = (task) => {
@@ -51,8 +60,8 @@ function App() {
     setEditValue(task.title);
   };
 
-  const updateTask = async (id) => {
-    await fetch(`http://localhost:8080/tasks/${id}`, {
+  const updateTask = async (task) => {
+    await fetch(`http://localhost:8080/tasks/${task.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
@@ -60,9 +69,38 @@ function App() {
       body: JSON.stringify({ title: editValue })
     });
 
+
+    setTasks(prev =>
+        prev.map(t =>
+          t.id === task.id
+              ? { ...t, title: editValue }
+              : t
+      )
+    );
+
     setEditingId(null);
-    fetchTasks();
   };
+
+  const toggleCompleted = async (task) => {
+    await fetch(`http://localhost:8080/tasks/${task.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: task.title,
+        completed: !task.completed
+      })
+    });
+    setTasks(prev =>
+        prev.map(t =>
+            t.id === task.id
+                ? { ...t, completed: !t.completed }
+                : t
+        )
+    );
+
+  }
 
 
   return (
@@ -87,6 +125,7 @@ function App() {
                       task={task}
                       startEdit={startEdit}
                       deleteTask={deleteTask}
+                      toggleCompleted={toggleCompleted}
                   />
               )
           ))}

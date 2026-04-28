@@ -8,4 +8,5 @@ import lombok.Setter;
 @Setter
 public class CreateTaskRequest {
     private String title;
+    private boolean completed;
 }
